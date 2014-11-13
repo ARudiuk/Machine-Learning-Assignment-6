@@ -24,15 +24,20 @@ target = target[order,:]
 
 #impot ANN
 import ANN
-#initialize perceptron
-net = ANN.ANN(iris[:,:4],target,nhidden1 = 5,nlayers = 1,momentum = 0.4 )
-#split the data we randomized and encoded the output for earlier
-net.split_50_25_25()
-#train for n iterations
-#first parameter is number of iterations
-#second parameter is the learning rate
-#third parameter is a boolean of whether or not you want to track and plot the error during training
-net.train_n_iterations(2000,0.3,plot_errors = True)
-#print confusion matrix
-net.confmat(net.valid,net.validt)
-net.confmat(net.test,net.testt)
+sum = 0.0
+for i in range(100):
+    #initialize perceptron
+    if i%10 == 0:
+        print i
+    net = ANN.ANN(iris[:,:4],target,nhidden1 = 5,nlayers = 1,momentum = 0.4 )
+    #split the data we randomized and encoded the output for earlier
+    net.split_50_25_25()
+    #train for n iterations
+    #first parameter is number of iterations
+    #second parameter is the learning rate
+    #third parameter is a boolean of whether or not you want to track and plot the error during training
+    points,max_value = net.train_n_iterations(2000,0.3,plot_errors = False)
+    #print confusion matrix
+    net.confmat(net.valid,net.validt,print_info = False)
+    sum+=net.confmat(net.test,net.testt,print_info = False)
+print sum/100.0
